@@ -1,0 +1,209 @@
+$white:#fff;
+$gray:gray;
+
+@mixin radius($r){
+	border-radius:$r;
+}
+
+@mixin bg{
+	background:url('../img/bg.png') no-repeat;
+	background-size:cover;
+}
+
+@mixin dis{
+	display:flex;
+	flex:1;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center
+}
+
+@mixin move($word){
+	content:$word;
+	position:absolute;
+	top:8px;
+	transition:all .2s linear;
+}
+
+
+@mixin content{
+	content:'';
+	width:100%;
+	height:2px;
+	background:$white;
+	position:absolute;
+	bottom:0;
+	left:0;
+	z-index:0;
+	transform:scale(0);
+	transform-origin:50% calc(100% - 1px);
+	transition:all 0.3s linear;
+}
+
+@mixin transition{
+	-webkit-transition-duration: .2s;
+  	transition-duration: .2s;
+  	-webkit-transform: translate(0, -1.5em) scale(0.9, 0.9);
+  	-ms-transform: translate(0, -1.5em) scale(0.9, 0.9);
+  	transform: translate(0, -1.5em) scale(0.9, 0.9);
+}
+
+*{
+	margin:0;
+	padding:0;
+}
+
+html,body{
+	margin:0 auto;
+	width:100%;
+	max-width:400px;
+	height:100%;
+	@include bg;
+	display:flex;
+	flex-direction:column;
+	font-family:cursive;
+	color:$white;
+	overflow:hidden;
+}
+
+
+
+
+#title{
+	@include dis;
+	h1{
+		color:$white;
+		font-size:37px;
+		letter-spacing: 6px
+	}
+	p{
+		color:$gray;
+	}
+}
+
+
+
+#login_form{
+	@include dis;
+	.input{
+		width:60%;
+		position:relative;
+		&:last-child{
+			margin-top:50px;
+		}
+		&:after{
+			
+		}
+	}
+
+
+	input{
+		width:100%;
+		background:transparent;
+		border:none;
+		border-bottom:2px solid rgba(150, 150, 150, 0.2);
+		outline:none;
+		font-size:20px;
+		padding:8px 0px;
+		color:$white;
+
+	}
+
+	.username label,.password label{
+		 pointer-events: none;
+		&:before{
+			@include move( attr(alt) )
+		}
+		&:after{
+			@include content
+		}
+	}
+
+	.username input[required]:focus + label[placeholder]:before,
+	.username input[required]:valid + label[placeholder]:before,
+	.password input[required]:focus + label[placeholder]:before,
+	.password input[required]:valid + label[placeholder]:before{
+		@include transition;
+	}
+
+	.username input[required]:focus + label[placeholder]:after,
+	.username input[required]:valid + label[placeholder]:after,
+	.password input[required]:focus + label[placeholder]:after,
+	.password input[required]:valid + label[placeholder]:after{
+		transform:scale(1)
+	}
+
+	.password{
+		margin-top:30px;
+	}
+
+	#submit_btn{
+		width:60%;
+		margin-top:60px;
+		position:relative;
+		height:42px;
+		transition:all .15s linear;
+		border:1px solid $white;
+		box-sizing: border-box;
+		transform-origin:50% 50%;
+		
+		&.hide{
+			overflow:hidden
+		}
+
+		&.ts{
+			animation:btn_move .5s linear infinite;
+		}
+
+		.word{
+			position:absolute;
+			left:50%;
+			top:50%;
+			transform:translate3d(-50%,-50%,0)
+		}
+
+		.blank{
+			display:inline-block;
+			width:300px;
+			height:300px;
+			@include radius(50%);
+			@extend .word;
+			background: -webkit-radial-gradient(transparent 0%, transparent 5%,#fff 5%, #fff 12%,rgba(255,255,255,0.4) 12%,rgba(255,255,255,0.4) 100%);
+			transition:all .2s linear;
+			transform:translate3d(-50%,-50%,0) scale(0);
+			&.black_scale{
+				transform:translate3d(-50%,-50%,0) scale(1);
+			}
+		}
+
+		.blank2{
+			display:inline-block;
+			width:1900px;
+			height:1900px;
+			@include radius(50%);
+			@extend .word;
+			background: #fff;
+			transition:all .5s linear 1s;
+			transform:translate3d(-50%,-50%,0) scale(0);
+			&.black2_scale{
+				transform:translate3d(-50%,-50%,0) scale(1);
+			}
+		}
+
+
+	
+	}
+	
+}
+
+
+@keyframes btn_move{
+	0%{
+		transform:rotate(0deg)
+	}
+	100%{
+		transform:rotate(360deg)
+	}
+}
+
+
